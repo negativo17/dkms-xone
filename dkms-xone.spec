@@ -1,5 +1,5 @@
-%global commit0 bbf0dcc484c3f5611f4e375da43e0e0ef08f3d18
-%global date 20230517
+%global commit0 af5e344fb0203738c5892e295aa4f7138889393d
+%global date 20240116
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 #global tag %{version}
 
@@ -8,7 +8,7 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.3
-Release:    2%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:    3%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/medusalix/%{dkms_name}
@@ -71,6 +71,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %endif
 
 %changelog
+* Wed Jan 17 2024 Simone Caronni <negativo17@gmail.com> - 0.3-3.20240116gitaf5e344
+- Update to latest snapshot.
+
 * Sun Jun 04 2023 Simone Caronni <negativo17@gmail.com> - 0.3-2.20230517gitbbf0dcc
 - Update to latest snapshot.
 
