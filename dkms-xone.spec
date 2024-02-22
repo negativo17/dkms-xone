@@ -8,7 +8,7 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.3
-Release:    7%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:    8%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/medusalix/%{dkms_name}
@@ -47,7 +47,7 @@ sed -i -e 's/__VERSION_STRING/%{version}/g' dkms.conf
 %install
 # Create empty tree:
 mkdir -p %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
-cp -fr bus driver transport Kbuild dkms.conf %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
+cp -fr auth bus driver transport Kbuild dkms.conf %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 
 %if 0%{?fedora}
 # Do not enable weak modules support in Fedora (no kABI):
@@ -71,6 +71,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %endif
 
 %changelog
+* Thu Feb 22 2024 Simone Caronni <negativo17@gmail.com> - 0.3-8.20240214gitab688dd
+- Fix build.
+
 * Sat Feb 17 2024 Simone Caronni <negativo17@gmail.com> - 0.3-7.20240214gitab688dd
 - Update to latest snapshot.
 
