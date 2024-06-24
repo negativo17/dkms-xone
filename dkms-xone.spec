@@ -8,7 +8,7 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.3
-Release:    10%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:    12%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/medusalix/%{dkms_name}
@@ -20,8 +20,7 @@ Source0:    %{url}/archive/v%{version}.tar.gz#/%{dkms_name}-%{version}.tar.gz
 Source0:    %{url}/archive/%{commit0}.tar.gz#/%{dkms_name}-%{shortcommit0}.tar.gz
 %endif
 
-Source1:    %{name}.conf
-Source2:    dkms-no-weak-modules.conf
+Source1:    dkms-no-weak-modules.conf
 
 BuildRequires:  sed
 
@@ -39,8 +38,10 @@ Linux kernel driver for Xbox One and Xbox Series X|S accessories.
 %autosetup -p1 -n %{dkms_name}-%{commit0}
 %endif
 
-cp %{SOURCE1} dkms.conf
-sed -i -e 's/__VERSION_STRING/%{version}/g' dkms.conf
+sed -i \
+    -e 's|#VERSION#|%{version}|g' \
+    -e 's|kernel/drivers/input/joystick|extra|g' \
+    dkms.conf
 
 %build
 
@@ -51,7 +52,7 @@ cp -fr auth bus driver transport Kbuild dkms.conf %{buildroot}%{_usrsrc}/%{dkms_
 
 %if 0%{?fedora}
 # Do not enable weak modules support in Fedora (no kABI):
-install -p -m 644 -D %{SOURCE2} %{buildroot}%{_sysconfdir}/dkms/%{dkms_name}.conf
+install -p -m 644 -D %{SOURCE1} %{buildroot}%{_sysconfdir}/dkms/%{dkms_name}.conf
 %endif
 
 %post
@@ -71,6 +72,12 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %endif
 
 %changelog
+* Mon Jun 24 2024 Simone Caronni <negativo17@gmail.com> - 0.3-12.20240425git29ec357
+- Adjust path in DKMS configuration file.
+
+* Mon Jun 24 2024 Simone Caronni <negativo17@gmail.com> - 0.3-11.20240425git29ec357
+- Use bundled DKMS configuration file.
+
 * Mon May 13 2024 Simone Caronni <negativo17@gmail.com> - 0.3-10.20240425git29ec357
 - Update to latest snapshot.
 
