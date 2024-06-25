@@ -8,7 +8,7 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.3
-Release:    12%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Release:    13%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/medusalix/%{dkms_name}
@@ -43,7 +43,7 @@ sed -i \
     -e 's|kernel/drivers/input/joystick|extra|g' \
     dkms.conf
 
-%build
+find . -type f -name '*.c' -exec sed -i "s/#VERSION#/%{version}/" {} \;
 
 %install
 # Create empty tree:
@@ -72,6 +72,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %endif
 
 %changelog
+* Tue Jun 25 2024 Simone Caronni <negativo17@gmail.com> - 0.3-13.20240425git29ec357
+- Set appropriate version into modules.
+
 * Mon Jun 24 2024 Simone Caronni <negativo17@gmail.com> - 0.3-12.20240425git29ec357
 - Adjust path in DKMS configuration file.
 
