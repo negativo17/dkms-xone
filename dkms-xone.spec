@@ -7,8 +7,8 @@
 %global dkms_name xone
 
 Name:       dkms-%{dkms_name}
-Version:    0.3
-Release:    13%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Version:    0.3%{!?tag:^%{date}git%{shortcommit0}}
+Release:    14%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/medusalix/%{dkms_name}
@@ -72,6 +72,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %endif
 
 %changelog
+* Tue Sep 24 2024 Simone Caronni <negativo17@gmail.com> - 0.3^20240425git29ec357-14
+- Use new packaging guidelines for snapshots.
+
 * Tue Jun 25 2024 Simone Caronni <negativo17@gmail.com> - 0.3-13.20240425git29ec357
 - Set appropriate version into modules.
 
