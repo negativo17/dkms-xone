@@ -8,7 +8,7 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.3%{!?tag:^%{date}git%{shortcommit0}}
-Release:    14%{?dist}
+Release:    15%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/medusalix/%{dkms_name}
@@ -19,6 +19,7 @@ Source0:    %{url}/archive/v%{version}.tar.gz#/%{dkms_name}-%{version}.tar.gz
 %else
 Source0:    %{url}/archive/%{commit0}.tar.gz#/%{dkms_name}-%{shortcommit0}.tar.gz
 %endif
+Patch0:     https://patch-diff.githubusercontent.com/raw/medusalix/xone/pull/53.patch
 
 Source1:    dkms-no-weak-modules.conf
 
@@ -72,6 +73,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %endif
 
 %changelog
+* Wed Oct 16 2024 Simone Caronni <negativo17@gmail.com> - 0.3^20240425git29ec357-15
+- Fix build on 6.11/6.12 kernels.
+
 * Tue Sep 24 2024 Simone Caronni <negativo17@gmail.com> - 0.3^20240425git29ec357-14
 - Use new packaging guidelines for snapshots.
 
