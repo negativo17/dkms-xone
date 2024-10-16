@@ -57,14 +57,14 @@ install -p -m 644 -D %{SOURCE1} %{buildroot}%{_sysconfdir}/dkms/%{dkms_name}.con
 %endif
 
 %post
-dkms add -m %{dkms_name} -v %{version} -q || :
+dkms add -m %{dkms_name} -v %{version} -q --rpm_safe_upgrade || :
 # Rebuild and make available for the currently running kernel:
 dkms build -m %{dkms_name} -v %{version} -q || :
 dkms install -m %{dkms_name} -v %{version} -q --force || :
 
 %preun
 # Remove all versions from DKMS registry:
-dkms remove -m %{dkms_name} -v %{version} -q --all || :
+dkms remove -m %{dkms_name} -v %{version} -q --all --rpm_safe_upgrade || :
 
 %files
 %{_usrsrc}/%{dkms_name}-%{version}
@@ -75,6 +75,7 @@ dkms remove -m %{dkms_name} -v %{version} -q --all || :
 %changelog
 * Wed Oct 16 2024 Simone Caronni <negativo17@gmail.com> - 0.3^20240425git29ec357-15
 - Fix build on 6.11/6.12 kernels.
+- Do not uninstall in preun scriptlet in case of an upgrade.
 
 * Tue Sep 24 2024 Simone Caronni <negativo17@gmail.com> - 0.3^20240425git29ec357-14
 - Use new packaging guidelines for snapshots.
