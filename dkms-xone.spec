@@ -1,5 +1,5 @@
-%global commit0 29ec3577e52a50f876440c81267f609575c5161e
-%global date 20240425
+%global commit0 6b9d59aed71f6de543c481c33df4705d4a590a31
+%global date 20241223
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 #global tag %{version}
 
@@ -8,10 +8,10 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.3%{!?tag:^%{date}git%{shortcommit0}}
-Release:    15%{?dist}
+Release:    16%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
-URL:        https://github.com/medusalix/%{dkms_name}
+URL:        https://github.com/dlundqvist/xone
 BuildArch:  noarch
 
 %if 0%{?tag:1}
@@ -19,7 +19,6 @@ Source0:    %{url}/archive/v%{version}.tar.gz#/%{dkms_name}-%{version}.tar.gz
 %else
 Source0:    %{url}/archive/%{commit0}.tar.gz#/%{dkms_name}-%{shortcommit0}.tar.gz
 %endif
-Patch0:     https://patch-diff.githubusercontent.com/raw/medusalix/xone/pull/53.patch
 
 Source1:    dkms-no-weak-modules.conf
 
@@ -73,6 +72,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all --rpm_safe_upgrade || :
 %endif
 
 %changelog
+* Wed Dec 25 2024 Simone Caronni <negativo17@gmail.com> - 0.3^20241223git6b9d59a-16
+- Switch to https://github.com/dlundqvist/xone fork.
+
 * Wed Oct 16 2024 Simone Caronni <negativo17@gmail.com> - 0.3^20240425git29ec357-15
 - Fix build on 6.11/6.12 kernels.
 - Do not uninstall in preun scriptlet in case of an upgrade.
