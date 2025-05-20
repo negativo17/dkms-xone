@@ -8,7 +8,7 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.3%{!?tag:^%{date}git%{shortcommit}}
-Release:    17%{?dist}
+Release:    18%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/dlundqvist/xone
@@ -19,8 +19,6 @@ Source0:    %{url}/archive/v%{version}.tar.gz#/%{dkms_name}-%{version}.tar.gz
 %else
 Source0:    %{url}/archive/%{commit}.tar.gz#/%{dkms_name}-%{shortcommit}.tar.gz
 %endif
-
-Source1:    dkms-no-weak-modules.conf
 
 BuildRequires:  sed
 
@@ -50,11 +48,6 @@ find . -type f -name '*.c' -exec sed -i "s/#VERSION#/%{version}/" {} \;
 mkdir -p %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 cp -fr auth bus driver transport Kbuild dkms.conf %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 
-%if 0%{?fedora}
-# Do not enable weak modules support in Fedora (no kABI):
-install -p -m 644 -D %{SOURCE1} %{buildroot}%{_sysconfdir}/dkms/%{dkms_name}.conf
-%endif
-
 %post
 dkms add -m %{dkms_name} -v %{version} -q --rpm_safe_upgrade || :
 # Rebuild and make available for the currently running kernel:
@@ -67,11 +60,11 @@ dkms remove -m %{dkms_name} -v %{version} -q --all --rpm_safe_upgrade || :
 
 %files
 %{_usrsrc}/%{dkms_name}-%{version}
-%if 0%{?fedora}
-%{_sysconfdir}/dkms/%{dkms_name}.conf
-%endif
 
 %changelog
+* Tue May 20 2025 Simone Caronni <negativo17@gmail.com> - 0.3^20250502git197b160-18
+- Drop weak modules configuration, it's already disabled in Fedora.
+
 * Sat May 10 2025 Simone Caronni <negativo17@gmail.com> - 0.3^20250502git197b160-17
 - Update to latest snapshot.
 
