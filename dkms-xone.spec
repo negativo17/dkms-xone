@@ -1,24 +1,15 @@
-%global commit 197b160f7806d7d27117b12198cacb7656a07f1f
-%global date 20250502
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
-%global tag %{version}
-
 %global debug_package %{nil}
 %global dkms_name xone
 
 Name:       dkms-%{dkms_name}
-Version:    0.4.4%{!?tag:^%{date}git%{shortcommit}}
+Version:    0.4.4
 Release:    1%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/dlundqvist/xone
 BuildArch:  noarch
 
-%if 0%{?tag:1}
 Source0:    %{url}/archive/v%{version}.tar.gz#/%{dkms_name}-%{version}.tar.gz
-%else
-Source0:    %{url}/archive/%{commit}.tar.gz#/%{dkms_name}-%{shortcommit}.tar.gz
-%endif
 
 BuildRequires:  sed
 
@@ -30,11 +21,7 @@ Requires:   dkms
 Linux kernel driver for Xbox One and Xbox Series X|S accessories.
 
 %prep
-%if 0%{?tag:1}
 %autosetup -p1 -n %{dkms_name}-%{version}
-%else
-%autosetup -p1 -n %{dkms_name}-%{commit}
-%endif
 
 sed -i \
     -e 's|#VERSION#|%{version}|g' \
