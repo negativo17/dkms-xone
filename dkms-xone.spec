@@ -3,7 +3,7 @@
 
 Name:       dkms-%{dkms_name}
 Version:    0.4.8
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
 URL:        https://github.com/dlundqvist/xone
@@ -38,8 +38,8 @@ cp -fr auth bus driver transport Kbuild dkms.conf %{buildroot}%{_usrsrc}/%{dkms_
 %post
 dkms add -m %{dkms_name} -v %{version} -q --rpm_safe_upgrade || :
 # Rebuild and make available for the currently running kernel:
-dkms build -m %{dkms_name} -v %{version} -q || :
-dkms install -m %{dkms_name} -v %{version} -q --force || :
+dkms build -m %{dkms_name} -v %{version} -q --force
+dkms install -m %{dkms_name} -v %{version} -q --force
 
 %preun
 # Remove all versions from DKMS registry:
@@ -49,6 +49,10 @@ dkms remove -m %{dkms_name} -v %{version} -q --all --rpm_safe_upgrade || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Wed Oct 08 2025 Simone Caronni <negativo17@gmail.com> - 0.4.8-2
+- Fix modules not getting rebuilt when reinstalling package.
+- Do not filter out as success module build steps.
+
 * Tue Oct 07 2025 Simone Caronni <negativo17@gmail.com> - 0.4.8-1
 - Update to 0.4.8.
 
