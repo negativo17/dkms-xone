@@ -2,7 +2,7 @@
 %global dkms_name xone
 
 Name:       dkms-%{dkms_name}
-Version:    0.4.11
+Version:    0.5.0
 Release:    1%{?dist}
 Summary:    Linux kernel driver for Xbox One and Xbox Series X|S accessories
 License:    GPLv2
@@ -49,6 +49,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all --rpm_safe_upgrade || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Mon Dec 15 2025 Simone Caronni <negativo17@gmail.com> - 0.5.0-1
+- Update to 0.5.0.
+
 * Sat Nov 15 2025 Simone Caronni <negativo17@gmail.com> - 0.4.11-1
 - Update to 0.4.11.
 
